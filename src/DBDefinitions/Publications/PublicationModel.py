@@ -30,7 +30,20 @@ class PublicationModel(BaseDBModel):
     __tablename__ = "publications"
 
     title: Mapped[str] = mapped_column(default=None, nullable=True)
-    publication_type_id: Mapped[IDType] = relationship("PublicationTypeModel", back_populates="publications")
+    publication_type_id: Mapped[IDType] = mapped_column(
+        ForeignKey("publicationtypes.id"),
+        index=True,
+        nullable=True,
+        default=None,
+    )
+    publication_type = relationship(
+        "PublicationTypeModel",
+        back_populates="publications",
+    )
+    authorships = relationship(
+        "AuthorshipModel",
+        back_populates="publication",
+    )
     year: Mapped[datetime.datetime] = mapped_column(DateTime, nullable=True, default=None)
     language: Mapped[str] = mapped_column(String(100), nullable=True, default=None)
     abstract: Mapped[str] = mapped_column(String(500), nullable=True, default=None)
@@ -39,5 +52,4 @@ class PublicationModel(BaseDBModel):
     volume: Mapped[str] = mapped_column(String(100), nullable=True, default=None)
     issue: Mapped[str] = mapped_column(String(100), nullable=True, default=None)
     pages: Mapped[str] = mapped_column(String(100), nullable=True, default=None)
-
 

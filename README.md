@@ -40,6 +40,29 @@ from uoishelpers.resolvers import PageResolver, createInputs2
 
 Závislost je připnutá na konkrétní commit, aby instalace i CI používaly stejnou verzi.
 
+### Instalace závislostí ve Windows
+
+V kořenovém adresáři projektu vytvořte a aktivujte virtuální prostředí a
+nainstalujte projekt včetně závislostí z `pyproject.toml`:
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install --upgrade pip
+python -m pip install -e .
+```
+
+Instalaci lze ověřit příkazem:
+
+```powershell
+python -c "import uoishelpers; print(uoishelpers.__file__)"
+```
+
+Pokud už virtuální prostředí existuje, stačí ho aktivovat a spustit
+`python -m pip install -e .`. Používejte stejný aktivní Python pro instalaci
+i spuštění aplikace; jinak může import `uoishelpers` stále skončit chybou
+`ModuleNotFoundError`.
+
 ## Vrstvy
 
 ```text

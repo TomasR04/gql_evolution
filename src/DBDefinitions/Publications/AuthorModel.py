@@ -33,3 +33,8 @@ class AuthorModel(BaseDBModel):
     display_name: Mapped[str] = mapped_column(String(200), nullable=True, default=None)
     orcid: Mapped[str] = mapped_column(String(100), nullable=True, default=None)
     affiliation: Mapped[str] = mapped_column(String(200), nullable=True, default=None)
+
+    authorships = relationship(
+        "AuthorshipModel",
+        back_populates="author",
+    )

@@ -23,6 +23,20 @@ from src.DBDefinitions.BaseModel import BaseDBModel, UUIDColumn, UUIDFKey, IDTyp
 class PublicationTypeModel(BaseDBModel):
     __tablename__ = "publicationtypes"
 
-    name: Mapped[str] = mapped_column(String(100), nullable=False, unique=True)
-    label: Mapped[str] = mapped_column(String(100), nullable=False)
+    name: Mapped[str] = mapped_column(
+        String(100),
+        nullable=False,
+        unique=True,
+        kw_only=True,
+    )
+    label: Mapped[str] = mapped_column(
+        String(100),
+        nullable=False,
+        kw_only=True,
+    )
     description: Mapped[str] = mapped_column(String(500), nullable=True, default=None)
+
+    publications = relationship(
+        "PublicationModel",
+        back_populates="publication_type",
+    )

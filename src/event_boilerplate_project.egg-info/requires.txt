@@ -1,0 +1,5 @@
+strawberry-graphql
+sqlalchemy
+asyncpg
+greenlet
+uoishelpers @ https://github.com/hrbolek/uoishelpers/archive/4e41615436d6effbe248d8503e4df373549bcec3.zip

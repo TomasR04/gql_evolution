@@ -7,6 +7,7 @@ from sqlalchemy import (
     String,
     DateTime,
     ForeignKey,
+    Boolean,
 )
 from sqlalchemy.orm import Mapped, mapped_column, synonym
 
@@ -25,9 +26,31 @@ from src.DBDefinitions.BaseModel import BaseDBModel, UUIDColumn, UUIDFKey, IDTyp
 class AuthorshipModel(BaseDBModel):
     __tablename__ = "authorships"
 
-    publication_id: Mapped[IDType] = relationship("PublicationModel", back_populates="authorships")
-    author_id: Mapped[IDType] = relationship("AuthorModel", back_populates="authorships")
+    publication_id: Mapped[IDType] = mapped_column(
+        ForeignKey("publications.id"),
+        index=True,
+        nullable=True,
+        default=None,
+    )
+    publication = relationship(
+        "PublicationModel",
+        back_populates="authorships",
+    )
+    author_id: Mapped[IDType] = mapped_column(
+        ForeignKey("authors.id"),
+        index=True,
+        nullable=True,
+        default=None,
+    )
+    author = relationship(
+        "AuthorModel",
+        back_populates="authorships",
+    )
     position: Mapped[int] = mapped_column(nullable=True, default=None)
     share: Mapped[float] = mapped_column(nullable=True, default=None)
-    corresponding_author: Mapped[bool] = relationship("AuthorModel", back_populates="authorships")
+    corresponding_author: Mapped[bool] = mapped_column(
+        Boolean,
+        nullable=True,
+        default=None,
+    )
     state_id: Mapped[IDType] = mapped_column(ForeignKey("authorshipstates.id"), index=True, nullable=True, default=None)
