@@ -72,7 +72,7 @@ def ComposeConnectionString():
 __all__ = [
     'BaseDBModel', 'IDType', 'UUIDColumn', 'UUIDFKey',
     'EventModel', 'EventInvitationModel', 'EventTypeModel',
-    'startEngine', 'ComposeConnectionString', 'EventTypeModel',
+    'startEngine', 'ComposeConnectionString', 'EventTypeModel'
     'AuthorModel', 'PublicationModel', 'AuthorshipModel', 'PublicationTypeModel'
 ]
 

@@ -26,7 +26,7 @@ from src.DBDefinitions.BaseModel import BaseDBModel, UUIDColumn, UUIDFKey, IDTyp
 class AuthorModel(BaseDBModel):
     __tablename__ = "authors"
 
-    user_id: Mapped[IDType] = mapped_column(ForeignKey("users.id"), index=True, nullable=True, default=None)
+    user_id: Mapped[IDType] = UUIDFKey(ForeignKey("users.id"), index=True, nullable=True, default=None)
     first_name: Mapped[str] = mapped_column(String(100), nullable=True, default=None)
     last_name: Mapped[str] = mapped_column(String(100), nullable=True, default=None)
     middle_name: Mapped[str] = mapped_column(String(100), nullable=True, default=None)

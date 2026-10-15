@@ -48,7 +48,7 @@ class PublicationModel(BaseDBModel):
     language: Mapped[str] = mapped_column(String(100), nullable=True, default=None)
     abstract: Mapped[str] = mapped_column(String(500), nullable=True, default=None)
     doi: Mapped[str] = mapped_column(String(200), nullable=True, default=None)
-    journal_id: Mapped[IDType] = mapped_column(ForeignKey("journals.id"), index=True, nullable=True, default=None)
+    journal_id: Mapped[IDType] = UUIDFKey(ForeignKey("journals.id"), index=True, nullable=True, default=None)
     volume: Mapped[str] = mapped_column(String(100), nullable=True, default=None)
     issue: Mapped[str] = mapped_column(String(100), nullable=True, default=None)
     pages: Mapped[str] = mapped_column(String(100), nullable=True, default=None)

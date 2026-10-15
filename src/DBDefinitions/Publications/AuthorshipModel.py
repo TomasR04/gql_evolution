@@ -53,4 +53,6 @@ class AuthorshipModel(BaseDBModel):
         nullable=True,
         default=None,
     )
-    state_id: Mapped[IDType] = mapped_column(ForeignKey("authorshipstates.id"), index=True, nullable=True, default=None)
+    
+    # BUDE TŘEBA ZKONTROLOVAT
+    state_id: Mapped[IDType] = UUIDFKey(ForeignKey("authorshipstates.id"), index=True, nullable=True, default=None)
