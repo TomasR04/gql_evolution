@@ -308,6 +308,7 @@ GraphQL resolver → Service → Dataloader → DB
 Z rootu projektu:
 
 ```bash
+python -m pip install -e .
 python -m src.DBDefinitions.main Event list '{}'
 ```
 

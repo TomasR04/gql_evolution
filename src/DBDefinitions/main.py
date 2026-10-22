@@ -34,6 +34,7 @@ from sqlalchemy import inspect, select
 from sqlalchemy.orm import selectinload
 from sqlalchemy.orm.properties import ColumnProperty, RelationshipProperty
 
+from src.DBDefinitions.seed import init_database_data
 from uoishelpers.dataloaders import prepareSelect
 
 from . import BaseDBModel, ComposeConnectionString, startEngine
@@ -599,6 +600,7 @@ async def run_async(args: argparse.Namespace) -> typing.Any:
         raise CliError("Unable to create async session maker")
 
     async with session_maker() as session:
+        await init_database_data(session)
         operation = args.operation.lower()
 
         if operation in {"create", "c"}:

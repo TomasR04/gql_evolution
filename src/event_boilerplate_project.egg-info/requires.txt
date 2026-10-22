@@ -2,4 +2,8 @@ strawberry-graphql
 sqlalchemy
 asyncpg
 greenlet
+aiohttp
+prometheus-client
+starlette
+aiodataloader
 uoishelpers @ https://github.com/hrbolek/uoishelpers/archive/4e41615436d6effbe248d8503e4df373549bcec3.zip

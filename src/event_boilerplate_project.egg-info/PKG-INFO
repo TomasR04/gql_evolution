@@ -7,4 +7,8 @@ Requires-Dist: strawberry-graphql
 Requires-Dist: sqlalchemy
 Requires-Dist: asyncpg
 Requires-Dist: greenlet
+Requires-Dist: aiohttp
+Requires-Dist: prometheus-client
+Requires-Dist: starlette
+Requires-Dist: aiodataloader
 Requires-Dist: uoishelpers @ https://github.com/hrbolek/uoishelpers/archive/4e41615436d6effbe248d8503e4df373549bcec3.zip
