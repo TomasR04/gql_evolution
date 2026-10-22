@@ -2,11 +2,13 @@ from __future__ import annotations
 
 import os
 import uuid
+import datetime
 
 from contextlib import asynccontextmanager
 
-from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 from sqlalchemy import inspect as sa_inspect
+from sqlalchemy.sql.sqltypes import Date, DateTime
 from sqlalchemy.exc import NoInspectionAvailable
 
 from uoishelpers.dataloaders import readJsonFile
@@ -39,6 +41,49 @@ def is_sqlalchemy_model(cls: type) -> bool:
     
 get_demodata = lambda :readJsonFile(jsonFileName="./systemdata.json")
 
+
+def _coerce_seed_value(column, value):
+    if value is None or not isinstance(value, str):
+        return value
+
+    if isinstance(column.type, DateTime):
+        return datetime.datetime.fromisoformat(value)
+
+    if isinstance(column.type, Date):
+        return datetime.date.fromisoformat(value)
+
+    return value
+
+# convert string time to datetime object for seed data, if the column type is DateTime or Date
+def normalize_seed_data(models, json_data):
+    models_by_table = {
+        model.__tablename__: model
+        for model in models
+    }
+    normalized_data = dict(json_data)
+
+    for table_name, rows in json_data.items():
+        model = models_by_table.get(table_name)
+        if model is None or not isinstance(rows, list):
+            continue
+
+        columns = {
+            column.name: column
+            for column in sa_inspect(model).columns
+        }
+        normalized_data[table_name] = [
+            {
+                key: _coerce_seed_value(columns[key], value)
+                if key in columns
+                else value
+                for key, value in row.items()
+            }
+            for row in rows
+        ]
+
+    return normalized_data
+
+
 async def init_database_data(session: AsyncSession, get_demodata=get_demodata) -> None:
     """Idempotent seed hook for application startup.
 
@@ -46,13 +91,12 @@ async def init_database_data(session: AsyncSession, get_demodata=get_demodata) -
     DatabaseRuntime.start(), after metadata.create_all().
     """
 
-    json_data = get_demodata()
-
     Models = [
         mapper.class_
         for mapper in BaseDBModel.registry.mappers
         if is_sqlalchemy_model(mapper.class_)
     ]
+    json_data = normalize_seed_data(Models, get_demodata())
 
     ModelNames = [Model.__name__ for Model in Models]
 
@@ -82,12 +126,16 @@ async def init_database_data(session: AsyncSession, get_demodata=get_demodata) -
     modelIndex = dict((DBModel.__tablename__, DBModel) for DBModel in ModelsToImport)
     print(f"Models to import: {ModelsToImport}\nTable names: {table_names}\nModel index: {modelIndex}", flush=True)
 
+    session_factory = async_sessionmaker(
+        bind=session.bind,
+        expire_on_commit=False,
+        class_=AsyncSession,
+    )
+
     @asynccontextmanager
     async def session_maker():
-        try:
-            yield session
-        finally:
-            pass
+        async with session_factory() as import_session:
+            yield import_session
 
     await ImportModels(session_maker, ModelsToImport, json_data)
 

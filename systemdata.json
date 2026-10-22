@@ -6,7 +6,7 @@
     {
       "title": "Využití umělé inteligence ve vzdělávání",
       "publication_type_id": "f1a2b3c4-d5e6-4789-8123-123456789002",
-      "year": "2023-01-01T00:00:00",
+      "year": "2023-01-01 00:00:00",
       "language": "cs",
       "abstract": "Studie se zabývá možnostmi využití umělé inteligence v moderním vzdělávání.",
       "doi": "10.1234/edu.2023.001",
@@ -24,7 +24,7 @@
     {
       "title": "Moderní přístupy k analýze dat",
       "publication_type_id": "f1a2b3c4-d5e6-4789-8123-123456789002",
-      "year": "2022-01-01T00:00:00",
+      "year": "2022-01-01 00:00:00",
       "language": "en",
       "abstract": "The study explores modern approaches to data analysis and interpretation.",
       "doi": "10.5678/data.2022.002",
@@ -42,7 +42,7 @@
     {
       "title": "Digitální transformace ve veřejné správě",
       "publication_type_id": "f1a2b3c4-d5e6-4789-8123-123456789002",
-      "year": "2024-01-01T00:00:00",
+      "year": "2024-01-01 00:00:00",
       "language": "cs",
       "abstract": "Publikace analyzuje možnosti digitalizace a automatizace procesů veřejné správy.",
       "doi": "10.9876/gov.2024.003",
@@ -60,7 +60,7 @@
     {
       "title": "Data Quality in Information Systems",
       "publication_type_id": "f1a2b3c4-d5e6-4789-8123-123456789002",
-      "year": "2021-01-01T00:00:00",
+      "year": "2021-01-01 00:00:00",
       "language": "en",
       "abstract": "This paper examines data quality management and validation in information systems.",
       "doi": "10.2468/it.2021.004",
@@ -78,7 +78,7 @@
     {
       "title": "Vývoj informačních systémů v akademickém prostředí",
       "publication_type_id": "f1a2b3c4-d5e6-4789-8123-123456789002",
-      "year": "2025-01-01T00:00:00",
+      "year": "2025-01-01 00:00:00",
       "language": "cs",
       "abstract": "Článek se zaměřuje na návrh a vývoj informačních systémů v akademickém prostředí.",
       "doi": "10.1357/is.2025.005",
@@ -96,7 +96,7 @@
     {
       "title": "Analýza kybernetické bezpečnosti v organizacích",
       "publication_type_id": "f1a2b3c4-d5e6-4789-8123-123456789002",
-      "year": "2022-01-01T00:00:00",
+      "year": "2022-01-01 00:00:00",
       "language": "cs",
       "abstract": "Výzkum hodnotí aktuální hrozby kybernetické bezpečnosti a možnosti jejich prevence.",
       "doi": "10.3456/cyber.2022.006",
@@ -114,7 +114,7 @@
     {
       "title": "Machine Learning for Predictive Analytics",
       "publication_type_id": "f1a2b3c4-d5e6-4789-8123-123456789002",
-      "year": "2024-01-01T00:00:00",
+      "year": "2024-01-01 00:00:00",
       "language": "en",
       "abstract": "The article investigates machine learning methods for predictive analytics in business.",
       "doi": "10.7890/ml.2024.007",
@@ -132,7 +132,7 @@
     {
       "title": "Udržitelnost a inovace v průmyslu",
       "publication_type_id": "f1a2b3c4-d5e6-4789-8123-123456789002",
-      "year": "2023-01-01T00:00:00",
+      "year": "2023-01-01 00:00:00",
       "language": "cs",
       "abstract": "Publikace představuje inovativní přístupy k udržitelnému rozvoji průmyslových podniků.",
       "doi": "10.4567/industry.2023.008",
@@ -150,7 +150,7 @@
     {
       "title": "Digitalizace zdravotnických služeb",
       "publication_type_id": "f1a2b3c4-d5e6-4789-8123-123456789002",
-      "year": "2025-01-01T00:00:00",
+      "year": "2025-01-01 00:00:00",
       "language": "cs",
       "abstract": "Článek analyzuje přínosy digitálních technologií pro dostupnost a kvalitu zdravotnických služeb.",
       "doi": "10.6789/health.2025.009",
@@ -168,7 +168,7 @@
     {
       "title": "Open Data and Smart Cities",
       "publication_type_id": "f1a2b3c4-d5e6-4789-8123-123456789002",
-      "year": "2023-01-01T00:00:00",
+      "year": "2023-01-01 00:00:00",
       "language": "en",
       "abstract": "This paper explores the role of open data in the development of smart cities and public services.",
       "doi": "10.2468/smart.2023.010",
