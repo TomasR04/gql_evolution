@@ -13,6 +13,11 @@ Použití:
 
     python -m src.DBDefinitions.main Event delete '{"id": "..."}'
 
+In Windows PowerShell, escape the JSON quotes so they are preserved when
+calling Python:
+
+    python -m src.DBDefinitions.main Publication create '{\"title\": \"Zkouška\"}'
+
 Payload lze načíst i ze souboru:
 
     python -m src.DBDefinitions.main Event create @payload.json

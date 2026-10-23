@@ -1,3 +1,21 @@
+# Deník
+
+## 23.10. 2026
+
+Změny:
+- zprovoznění databázové vrsty, včetně všech příkazů CRUD
+- vytvoření základních dat pro Publication a PublicationType
+
+Problémy k řešení:
+- implementace základních dat
+
+
+
+
+
+
+
+
 # Event boilerplate project
 
 Demonstrační boilerplate pro doménu `Event / EventInvitation` podle funkčního vzoru ze `src.zip`.
