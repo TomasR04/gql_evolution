@@ -6,6 +6,7 @@ from src.DBDefinitions import (
     AuthorModel,
     PublicationModel,
     PublicationTypeModel,
+    JournalModel,
 )
 
 
@@ -17,6 +18,11 @@ def test_publication_models_have_valid_mappings():
         "publicationtypes.id"
     }
     publication_relationships = inspect(PublicationModel).relationships
+    assert {fk.target_fullname for fk in inspect(PublicationModel).columns["journal_id"].foreign_keys} == {
+        "journals.id"
+    }
+    assert publication_relationships["journal"].mapper.class_ is JournalModel
+    assert inspect(JournalModel).relationships["publications"].mapper.class_ is PublicationModel
     assert (
         publication_relationships["publication_type"].mapper.class_
         is PublicationTypeModel

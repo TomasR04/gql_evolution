@@ -3,6 +3,7 @@ from uoishelpers.dataloaders.IDLoader import IDLoader
 
 import src.DBDefinitions
 from src.DBDefinitions import BaseDBModel, EventModel, EventInvitationModel, PublicationModel, PublicationTypeModel, AuthorModel, AuthorshipModel 
+from src.DBDefinitions import JournalModel, JournalTypeModel
 
 
 class LoaderMap(LoaderMapBase[BaseDBModel]):
@@ -14,6 +15,8 @@ class LoaderMap(LoaderMapBase[BaseDBModel]):
     PublicationTypeModel: IDLoader[src.DBDefinitions.PublicationTypeModel] = None
     AuthorModel: IDLoader[src.DBDefinitions.AuthorModel] = None
     AuthorshipModel: IDLoader[src.DBDefinitions.AuthorshipModel] = None
+    JournalModel: IDLoader[src.DBDefinitions.JournalModel] = None
+    JournalTypeModel: IDLoader[src.DBDefinitions.JournalTypeModel] = None
 
     def __init__(self, session):
         super().__init__(session)
@@ -23,6 +26,8 @@ class LoaderMap(LoaderMapBase[BaseDBModel]):
         self.PublicationTypeModel = self.get(PublicationTypeModel)
         self.AuthorModel = self.get(AuthorModel)
         self.AuthorshipModel = self.get(AuthorshipModel)
+        self.JournalModel = self.get(JournalModel)
+        self.JournalTypeModel = self.get(JournalTypeModel)
 
     def get_by_name(self, name: str):
         return getattr(self, name)

@@ -1,5 +1,73 @@
 # Deník
 
+## 9. 11. 2026 – Propojení publikací s časopisy
+
+Do společného projektu jsme přidali modely Journal a JournalType z naší části Journals. Jsou ve stejné složce `src/DBDefinitions/Publications` jako modely publikací. Publikace odkazuje přes `journal_id` na existující časopis. Přes vztahy `journal` a `publications` můžeme načíst obě strany vazby.
+
+V `systemdata.json` máme 10 ukázkových časopisů TEST01 až TEST10 a 10 publikací, jednu pro každý časopis. Názvy časopisů jsou pouze testovací. Zachovali jsme původní ID záznamů a jejich vzájemné odkazy. Pro typy časopisů máme jeden hlavní typ a jeden podtyp.
+
+Soubor jsme zjednodušili na základní údaje bez auditních ID, datumů vytvoření a dalších nepovinných podrobností. Sekce jsou v pořadí: `journaltypes`, `journals`, `publicationtypes`, `publications`, `authors`, `authorships`. Autoři a autorství zůstávají kvůli úplnému propojení publikací. Nepovinná pole modelů stále existují; jen je v těchto ukázkových datech nevyplňujeme. Další kopii datového souboru nemáme.
+
+V `seed.py` jsme doplnili pořadí importu podle cizích klíčů. Úpravy spolužáků pro načítání datumů a samostatné sessions zůstaly zachované. Pomocnou funkci `UUIDFKey` jsme u `PublicationModel.journal_id` nahradili přímým `mapped_column(ForeignKey(...))`, aby databáze vazbu skutečně kontrolovala.
+
+Ověřili jsme import celé sady dvakrát bez duplicit, načítání vazeb, změnu časopisu u publikace a odmítnutí chybného odkazu nebo smazání používaného časopisu. Ve vlastním `.venv` společného projektu prošlo 26 databázových testů a 4 kontroly architektury. Celou testovací sadu šablony jsme tím neověřovali.
+
+Backend jsme spustili nad databází `publications_demo`. Přes databázový `main.py` jsme načetli všech 10 publikací s časopisy a všech 10 časopisů s jejich publikacemi. Ověřili jsme i databázový cizí klíč a dostupnost GraphQL stránky a schématu učitelovy šablony.
+
+### Spuštění společného projektu
+
+Při první přípravě ve složce společného projektu:
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install -r requirements.txt
+python -m pip install pytest pytest-asyncio pytest-cov aiosqlite
+```
+
+Na našem počítači používáme stávající kontejnery a novou databázi `publications_demo`. Původní databázi `data` tím neměníme. Po zapnutí Docker Desktop:
+
+```powershell
+docker start uois-postgres_gql-1 uois-pgadmin-1
+```
+
+Databázi už máme vytvořenou. Na dalším počítači se stejnou Docker sestavou ji založíme jednou:
+
+```powershell
+docker exec uois-postgres_gql-1 createdb -U postgres publications_demo
+```
+
+Při běžném spuštění ve složce společného projektu:
+
+```powershell
+.\.venv\Scripts\Activate.ps1
+$env:POSTGRES_DB = "publications_demo"
+$env:DEMODATA = "True"
+python -m uvicorn main:app --reload
+```
+
+GraphQL stránka učitelovy šablony je na http://localhost:8000/gql. Vlastní operace pro časopisy ještě nejsou součástí schématu. pgAdmin otevřeme na http://localhost:31122 a po obnovení seznamu databází vybereme **Databases → publications_demo → Schemas → public → Tables**.
+
+Backend zastavíme přes **Ctrl+C**. Ve stejném terminálu můžeme vypsat data:
+
+```powershell
+python -m src.DBDefinitions.main Journal list
+python -m src.DBDefinitions.main Publication list
+```
+
+V novém terminálu znovu aktivujeme `.venv` a nastavíme `POSTGRES_DB`, jinak se použije výchozí databáze `data`.
+
+### Testy propojení
+
+```powershell
+python -m pytest tests/db/test_journals.py tests/db/test_publication_model_mapping.py -q -o addopts=
+python -m pytest tests/test_architecture.py -q -o addopts=
+```
+
+Pro ruční načtení dat spustíme aplikaci s `DEMODATA=True`. Nový cizí klíč se vytvoří na nové databázi; pokud už tabulka `publications` existuje ze starší verze, samotné `create_all` její strukturu nezmění. V takovém případě je potřeba samostatně doplnit cizí klíč po kontrole existujících odkazů, nebo ukázku spustit v nové vývojové databázi.
+
+Tímto jsme ověřili databázové propojení. Vlastní služby a GraphQL operace pro časopisy ještě zbývá doplnit.
+
 ## 23.10. 2026
 
 Změny:
