@@ -6,6 +6,11 @@ from src.Dataloaders import LoaderMap
 if typing.TYPE_CHECKING:
     from src.ServiceDefinitions.Domain_Events.EventService import EventService as _EventService
     from src.ServiceDefinitions.Domain_Events.EventInvitationService import EventInvitationService as _EventInvitationService
+    from src.ServiceDefinitions.Publications.PublicationService import PublicationService as _PublicationService
+    from src.ServiceDefinitions.Publications.PublicationTypeService import PublicationTypeService as _PublicationTypeService
+    from src.ServiceDefinitions.Publications.AuthorService import AuthorService as _AuthorService
+    from src.ServiceDefinitions.Publications.AuthorshipService import AuthorshipService as _AuthorshipService
+
 
 
 @dataclasses.dataclass(frozen=True)
@@ -19,6 +24,26 @@ class ServiceRegistry:
     def EventInvitationService(self) -> type['_EventInvitationService']:
         from src.ServiceDefinitions.Domain_Events.EventInvitationService import EventInvitationService
         return EventInvitationService
+    
+    @property
+    def PublicationService(self) -> type['_PublicationService']:
+        from src.ServiceDefinitions.Publications.PublicationService import PublicationService
+        return PublicationService
+    
+    @property
+    def PublicationTypeService(self) -> type['_PublicationTypeService']:
+        from src.ServiceDefinitions.Publications.PublicationTypeService import PublicationTypeService
+        return PublicationTypeService
+    
+    @property
+    def AuthorService(self) -> type['_AuthorService']:
+        from src.ServiceDefinitions.Publications.AuthorService import AuthorService
+        return AuthorService
+    
+    @property
+    def AuthorshipService(self) -> type['_AuthorshipService']:
+        from src.ServiceDefinitions.Publications.AuthorshipService import AuthorshipService
+        return AuthorshipService
 
 
 SERVICES = ServiceRegistry()
