@@ -51,5 +51,5 @@ class PublicationModel(BaseDBModel):
     journal_id: Mapped[IDType] = UUIDFKey(ForeignKey("journals.id"), index=True, nullable=True, default=None)
     volume: Mapped[str] = mapped_column(String(100), nullable=True, default=None)
     issue: Mapped[str] = mapped_column(String(100), nullable=True, default=None)
-    pages: Mapped[str] = mapped_column(String(100), nullable=True, default=None)
+    pages: Mapped[str] = mapped_column(String(100), nullable=True, default=None) # rozsah stránek [např. 100-130]
 
