@@ -122,3 +122,8 @@ GraphTypeDefinitions/
 ```bash
 python .CoderDefinitions/main.py
 ```
+
+```bash
+uvicorn main:app --port 9999 --env-file enviroment.txt
+```
+localhost:9999/gql
