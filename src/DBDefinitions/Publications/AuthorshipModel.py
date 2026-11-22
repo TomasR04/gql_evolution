@@ -55,4 +55,4 @@ class AuthorshipModel(BaseDBModel):
     )
     
     # BUDE TŘEBA ZKONTROLOVAT
-    state_id: Mapped[IDType] = UUIDFKey(ForeignKey("authorshipstates.id"), index=True, nullable=True, default=None)
+    # state_id: Mapped[IDType] = UUIDFKey(ForeignKey("authorshipstates.id"), index=True, nullable=True, default=None)

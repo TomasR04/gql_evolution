@@ -62,5 +62,5 @@ class PublicationModel(BaseDBModel):
     )
     volume: Mapped[str] = mapped_column(String(100), nullable=True, default=None)
     issue: Mapped[str] = mapped_column(String(100), nullable=True, default=None)
-    pages: Mapped[str] = mapped_column(String(100), nullable=True, default=None)
+    pages: Mapped[str] = mapped_column(String(100), nullable=True, default=None) # rozsah stránek [např. 100-130]
 
