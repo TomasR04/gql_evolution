@@ -10,6 +10,8 @@ if typing.TYPE_CHECKING:
     from src.ServiceDefinitions.Publications.PublicationTypeService import PublicationTypeService as _PublicationTypeService
     from src.ServiceDefinitions.Publications.AuthorService import AuthorService as _AuthorService
     from src.ServiceDefinitions.Publications.AuthorshipService import AuthorshipService as _AuthorshipService
+    from src.ServiceDefinitions.Publications.JournalService import JournalService as _JournalService
+    from src.ServiceDefinitions.Publications.JournalTypeService import JournalTypeService as _JournalTypeService
 
 
 
@@ -44,6 +46,16 @@ class ServiceRegistry:
     def AuthorshipService(self) -> type['_AuthorshipService']:
         from src.ServiceDefinitions.Publications.AuthorshipService import AuthorshipService
         return AuthorshipService
+
+    @property
+    def JournalService(self) -> type['_JournalService']:
+        from src.ServiceDefinitions.Publications.JournalService import JournalService
+        return JournalService
+
+    @property
+    def JournalTypeService(self) -> type['_JournalTypeService']:
+        from src.ServiceDefinitions.Publications.JournalTypeService import JournalTypeService
+        return JournalTypeService
 
 
 SERVICES = ServiceRegistry()
