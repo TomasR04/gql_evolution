@@ -32,6 +32,7 @@ import inspect as pyinspect
 import json
 import typing
 import uuid
+from types import SimpleNamespace
 
 import sqlalchemy
 from sqlalchemy import inspect
@@ -213,6 +214,23 @@ def get_relationships(model_cls: type) -> dict[str, RelationshipProperty]:
     }
 
 
+def convert_column_value(model_cls: type, name: str, value):
+    # JSON obsahuje ID a časy jako text, loader potřebuje jejich Python typy.
+    column_type = inspect(model_cls).columns[name].type
+    if value is None or not isinstance(value, str):
+        return value
+    try:
+        if isinstance(column_type, sqlalchemy.Uuid):
+            return uuid.UUID(value)
+        if isinstance(column_type, sqlalchemy.DateTime):
+            return datetime.datetime.fromisoformat(value)
+        if isinstance(column_type, sqlalchemy.Date):
+            return datetime.date.fromisoformat(value)
+    except ValueError as e:
+        raise CliError(f"Invalid value for '{name}'") from e
+    return value
+
+
 def split_columns_and_relationships(
     model_cls: type,
     payload: JsonDict,
@@ -243,7 +261,7 @@ def split_columns_and_relationships(
             continue
 
         if key in column_names:
-            column_values[key] = value
+            column_values[key] = convert_column_value(model_cls, key, value)
         elif key in relationships:
             relationship_values[key] = value
         else:
@@ -412,7 +430,7 @@ def get_primary_key_value(model_cls: type, payload: JsonDict) -> typing.Any:
             f"Missing primary key '{primary_key_name}' in payload"
         )
 
-    return payload[primary_key_name]
+    return convert_column_value(model_cls, primary_key_name, payload[primary_key_name])
 
 
 def parse_include(payload: JsonDict) -> set[str]:
@@ -552,13 +570,21 @@ async def op_update(
 
     get_primary_key_value(model_cls, entity_payload)
 
-    entity = build_instance(model_cls, entity_payload)
+    column_values, relationships = split_columns_and_relationships(model_cls, entity_payload)
+    if relationships:
+        raise CliError("Update relationships using foreign key fields")
+    if column_values.get("lastchange") is None:
+        raise CliError("Update requires the current 'lastchange' value")
+    # Neposlaná pole se nesmějí přepsat výchozími hodnotami DB modelu.
+    entity = SimpleNamespace(**column_values)
 
     result = await service_cls.Update(
         ctx=ctx,
         entity=entity,
     )
 
+    if result is None:
+        raise CliError("Record not found or 'lastchange' is outdated")
     return serialize_instance(result)
 
 
@@ -681,13 +707,15 @@ async def run_async(args: argparse.Namespace) -> typing.Any:
     if session_maker is None:
         raise CliError("Unable to create async session maker")
 
-    async with session_maker() as session:
+    # Úspěch potvrdí transakci, výjimka vrátí všechny její změny zpět.
+    async with session_maker() as session, session.begin():
         loaders = LoaderMap(session)
 
         ctx = ServiceContext(
             loaders=loaders,
             user=parse_user(args.user, payload),
             request=None,
+            session=session,
         )
 
         operation = args.operation.lower()
