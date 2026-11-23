@@ -1,5 +1,15 @@
 # Deník
 
+## 23.11. 2026
+
+Změny:
+- úprava modelu `PublicationTypeModel` na stromovou strukturu s nadřazenými a podřízenými typy
+- doplnění databázových vazeb mezi publikacemi a časopisy
+
+Problémy k řešení:
+- doplnění a vyjasnění modelu stavu autorství (`state_id`)
+- další práce s hierarchií typů publikací
+
 ## 9. 11. 2026 – Propojení publikací s časopisy
 
 Do společného projektu jsme přidali modely Journal a JournalType z naší části Journals. Jsou ve stejné složce `src/DBDefinitions/Publications` jako modely publikací. Publikace odkazuje přes `journal_id` na existující časopis. Přes vztahy `journal` a `publications` můžeme načíst obě strany vazby.
